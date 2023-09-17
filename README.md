@@ -16,4 +16,24 @@
 
 • Баланс клиента не может уйти ниже нуля.
 
+### Для запуска приложения:
+
+```
+make build && make run
+```
+
 ## Пример работы проекта
+#### Запрос через Postman 
+![image](https://github.com/SamsonAirapetyan/BWG-app/blob/master/assets/postman_takeoff.png)
+
+#### Пример хранения транзакций в Базе данных
+Каждой транзакции присваивается стату (Success и Error являются финальными)
+
+![image](https://github.com/SamsonAirapetyan/BWG-app/blob/master/assets/status.png)
+
+#### Вывод балансов
+
+С учетем ТЗ выводится только тот баланс последний статус которого не является Error
+
+![image](https://github.com/SamsonAirapetyan/BWG-app/blob/master/assets/balance.png)
+

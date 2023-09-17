@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./
+    command: ./wait-for-postgres.sh db ./BWG-app
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - DB_PASSWORD=qwerty
+
+  db:
+    restart: always
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=qwerty
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  migrate:
+    image: migrate/migrate
+    links:
+      - db
+    depends_on:
+      - db
+    volumes:
+      - ./schema:/migrations
+    command:
+      [ "-path", "/migrations", "-database",  "postgres://postgres:qwerty@db:5432/postgres?sslmode=disable", "up" ]

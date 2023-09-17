@@ -88,7 +88,7 @@ func initConfig() error {
 
 func StartDataBase(db *sqlx.DB) error {
 	_, err := db.Exec("CREATE TABLE IF NOT EXISTS Wallet(wallet_num bigint not null unique,USDT float default 0,RUB float default 0,EUR float default 0)")
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS Transaction(id serial not null unique,wallet_num bigint not null,currency char(100) not null,sum float,status char(100) default 'created')")
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS Transaction(id serial not null unique,wallet_num bigint not null,currency char(100) not null,sum float,status char(100) default 'Created')")
 	_, err = db.Exec("INSERT INTO Wallet (wallet_num) VALUES (1234567812345678)")
 	_, err = db.Exec("INSERT INTO Wallet (wallet_num) VALUES (8765567887655678)")
 	return err

@@ -1,5 +1,5 @@
 build:
-	docker-compose build BWG-app
+	docker compose build 
 
 run:
-	docker-compose up BWG-app
+	docker compose up 

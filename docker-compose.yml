@@ -23,13 +23,3 @@ services:
     ports:
       - 5432:5432
 
-  migrate:
-    image: migrate/migrate
-    links:
-      - db
-    depends_on:
-      - db
-    volumes:
-      - ./schema:/migrations
-    command:
-      [ "-path", "/migrations", "-database",  "postgres://postgres:qwerty@db:5432/postgres?sslmode=disable", "up" ]

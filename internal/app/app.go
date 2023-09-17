@@ -7,6 +7,7 @@ import (
 	"github.com/SamsonAirapetyan/BWG-test/internal/handler"
 	"github.com/SamsonAirapetyan/BWG-test/internal/repository"
 	"github.com/SamsonAirapetyan/BWG-test/internal/service"
+	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -48,6 +49,10 @@ func Run() {
 	if err != nil {
 		log.Println("failed conection with BD %s", err.Error())
 	}
+	err = StartDataBase(db)
+	if err != nil {
+		log.Println("failed inserting to BD %s", err.Error())
+	}
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
@@ -79,4 +84,12 @@ func initConfig() error {
 	viper.AddConfigPath("configs")
 	viper.SetConfigName("config")
 	return viper.ReadInConfig()
+}
+
+func StartDataBase(db *sqlx.DB) error {
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS Wallet(wallet_num bigint not null unique,USDT float default 0,RUB float default 0,EUR float default 0)")
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS Transaction(id serial not null unique,wallet_num bigint not null,currency char(100) not null,sum float,status char(100) default 'created')")
+	_, err = db.Exec("INSERT INTO Wallet (wallet_num) VALUES (1234567812345678)")
+	_, err = db.Exec("INSERT INTO Wallet (wallet_num) VALUES (8765567887655678)")
+	return err
 }
